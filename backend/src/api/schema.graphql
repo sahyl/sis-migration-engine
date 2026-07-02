@@ -1,0 +1,33 @@
+scalar Upload
+scalar JSON
+
+type ImportJob {
+  id: ID!
+  status: String!
+  totalRows: Int!
+  processedRows: Int!
+  failedRows: Int!
+}
+
+type StagingRow {
+  id: ID!
+  rowNumber: Int!
+  entityType: String!
+  rawData: JSON!
+  status: String!
+  errors: JSON!
+  conflictType: String
+}
+
+type Query {
+  importJob(id: ID!): ImportJob
+  problemRows(jobId: ID!): [StagingRow!]!
+}
+
+type Mutation {
+  startImport(schoolId: ID!, studentFile: Upload!, classFile: Upload!): ImportJob!
+  editStagingRow(rowId: ID!, data: JSON!): StagingRow!
+  resolveConflict(rowId: ID!, action: String!): StagingRow!
+  revalidateJob(jobId: ID!, schoolId: ID!): ImportJob!
+  confirmAndQueue(jobId: ID!, schoolId: ID!): ImportJob!
+}
