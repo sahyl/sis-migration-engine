@@ -9,26 +9,26 @@ Next.js, Apollo Client — frontend.
 
 ## Run
 
-\`\`\`bash
+```bash
 cd backend
 docker compose up -d
 npm install
 npm run migrate
 npm run dev       # api on :4000/graphql
 npm run worker    # separate terminal
-\`\`\`
+```
 
-\`\`\`bash
+```bash
 cd frontend
 npm install
 npm run dev        # :3000
-\`\`\`
+```
 
 Upload page at `/`, review page at `/review/<jobId>`.
 
 ## Flow
 
-\`\`\`
+```
 upload CSVs (students.csv + classes.csv)
   → staged as raw rows (import_staging_rows)
   → schema validation (zod)
@@ -41,7 +41,7 @@ upload CSVs (students.csv + classes.csv)
   → revalidate, repeat until clean
   → confirm & queue → BullMQ workers commit in batches, transaction per row
   → commit_failed rows (DB errors not caught earlier) surfaced same as any other problem row
-\`\`\`
+```
 
 ## Data model
 
